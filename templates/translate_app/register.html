@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 英语翻译评分系统</title>
+    <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: 'Arial', sans-serif;
+        }
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .register-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+        }
+        .register-card h2 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .footer {
+            flex-shrink: 0;
+            padding: 20px 0;
+            background-color: #fff;
+            text-align: center;
+            width: 100%;
+            border-top: 1px solid #eee;
+        }
+
+        .footer p {
+            margin: 0;
+            color: #666;
+        }
+
+        .footer a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <h2>注册</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" name="username" class="form-control" placeholder="请输入用户名" required>
+                    {% if form.username.errors %}
+                        <ul class="text-danger">
+                            {% for error in form.username.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" name="password1" class="form-control" placeholder="请输入密码" required>
+                    {% if form.password1.errors %}
+                        <ul class="text-danger">
+                            {% for error in form.password1.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>确认密码</label>
+                    <input type="password" name="password2" class="form-control" placeholder="请再次输入密码" required>
+                    {% if form.password2.errors %}
+                        <ul class="text-danger">
+                            {% for error in form.password2.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="email" name="email" class="form-control" placeholder="请输入邮箱" required>
+                    {% if form.email.errors %}
+                        <ul class="text-danger">
+                            {% for error in form.email.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>注册密钥</label>
+                    <input type="text" name="registration_key" class="form-control" placeholder="请输入注册密钥" required>
+                    {% if form.registration_key.errors %}
+                        <ul class="text-danger">
+                            {% for error in form.registration_key.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">注册</button>
+            </form>
+            
+            <div class="text-center mt-3">
+                <p>已有账户？ <a href="{% url 'login' %}" class="text-primary">登录</a></p>
+            </div>
+            <!-- QQ 群链接 -->
+            <div class="footer">
+                <p>加入QQ交流群： 
+                    <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=mCRkgcZWs3V95ZrE_VWnPy2oNM1JFcwH&jump_from=webapi&authKey=Fj4RaYIo7kuTXCWK1oH8WaIiNp1Bi4Fq8pVJozsaw6NQgOfmfVQDSEhgZGvKmqNG">
+                        点击加入
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>备案号：<a href="https://beian.miit.gov.cn/" target="_blank">皖ICP备2024059256号</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>评分结果</title>
+    <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f9fc;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            padding-top: 50px;
+        }
+        .card {
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        strong {
+            color: #555;
+        }
+        .footer {
+            flex-shrink: 0;
+            padding: 20px 0;
+            background-color: #fff;
+            text-align: center;
+            width: 100%;
+            border-top: 1px solid #eee;
+        }
+
+        .footer p {
+            margin: 0;
+            color: #666;
+        }
+
+        .footer a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2 class="mb-4">翻译评分结果</h2>
+            <p><strong>英文原文:</strong> {{ original_text }}</p>
+            <p><strong>中文译文:</strong> {{ translated_text }}</p>
+            <p><strong>评分与评价:</strong> {{ result }}</p>
+            <a href="{% url 'translate_view' %}" class="btn btn-primary btn-block mt-3">返回</a>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>备案号：<a href="https://beian.miit.gov.cn/" target="_blank">皖ICP备2024059256号</a></p>
+    </div>
+</body>
+</html>

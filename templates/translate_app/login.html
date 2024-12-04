@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 英语翻译评分系统</title>
+    <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/admin/css/css2.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: 'Roboto', sans-serif;
+        }
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+        }
+        .login-card h2 {
+            color: #0056b3;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .btn-primary:hover {
+            background-color: #004080;
+            border-color: #004080;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .register-link {
+            color: #0056b3;
+        }
+        .footer {
+            flex-shrink: 0;
+            padding: 20px 0;
+            background-color: #fff;
+            text-align: center;
+            width: 100%;
+            border-top: 1px solid #eee;
+        }
+
+        .footer p {
+            margin: 0;
+            color: #666;
+        }
+
+        .footer a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h2>登录</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
+                    {% if form.username.errors %}
+                        <ul class="text-danger">
+                            {% for error in form.username.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required>
+                    {% if form.password.errors %}
+                        <ul class="text-danger">
+                            {% for error in form.password.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">登录</button>
+            </form>
+            
+            <div class="text-center mt-3">
+                <p>还没有账户？ <a href="{% url 'register' %}" class="register-link">注册</a></p>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>备案号：<a href="https://beian.miit.gov.cn/" target="_blank">皖ICP备2024059256号</a></p>
+    </div>
+</body>
+</html>

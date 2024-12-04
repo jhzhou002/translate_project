@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>评分历史记录</title>
+    <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">评分历史记录</h2>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>上传时间</th>
+                    <th>年份</th>
+                    <th>评分</th>
+                    <th>评价</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                <tr>
+                    <td>{{ score.upload_time|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ score.year }}</td>
+                    <td>{{ score.score }}</td>
+                    <td>{{ score.review }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+        <a href="{% url 'translate_view' %}" class="btn btn-primary mt-3">返回评分页面</a>
+    </div>
+</body>
+</html>

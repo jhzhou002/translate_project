@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语翻译评分系统</title>
+    <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/admin/css/css2.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar {
+            background-color: #0056b3;
+            color: #fff;
+            border-radius: 0;
+        }
+        .navbar-brand, .navbar-nav .nav-link {
+            color: #fff;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #f7f7f7;
+        }
+        .container {
+            max-width: 900px;
+            margin-top: 30px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .card-title {
+            font-size: 24px;
+            color: #0056b3;
+            font-weight: bold;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .btn-primary:hover {
+            background-color: #004080;
+            border-color: #004080;
+        }
+        .history-section {
+            margin-top: 30px;
+        }
+        .history-title {
+            font-size: 20px;
+            color: #0056b3;
+            margin-bottom: 15px;
+        }
+        .scrollable-review {
+            max-width: 300px;
+            max-height: 60px;
+            overflow: auto;
+            white-space: nowrap;
+        }
+        .pagination {
+            justify-content: center;
+        }
+        .logout-btn {
+            color: #fff;
+            background-color: #d9534f;
+            border-color: #d9534f;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 8px 15px;
+        }
+        .logout-btn:hover {
+            background-color: #c9302c;
+            border-color: #c12e2a;
+        }
+        .footer {
+            flex-shrink: 0;
+            padding: 20px 0;
+            background-color: #fff;
+            text-align: center;
+            width: 100%;
+            border-top: 1px solid #eee;
+        }
+
+        .footer p {
+            margin: 0;
+            color: #666;
+        }
+
+        .footer a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">英语翻译评分系统</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">欢迎，用户</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link logout-btn" href="{% url 'logout' %}">退出登录</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 翻译评分表单 -->
+        <div class="card">
+            <h2 class="card-title">提交翻译评分</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="year">年份</label>
+                    <select class="form-control" id="year" name="year" required>
+                        {% for year in range_now_to_past %}
+                            <option value="{{ year }}">{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="original_text">英文原文</label>
+                    <textarea class="form-control" id="original_text" name="original_text" rows="4" placeholder="请输入英文原文" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="translated_text">中文译文</label>
+                    <textarea class="form-control" id="translated_text" name="translated_text" rows="4" placeholder="请输入您的中文译文" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">提交评分</button>
+            </form>
+        </div>
+
+        <!-- 历史记录 -->
+        <div class="history-section">
+            <h3 class="history-title">评分历史记录</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>上传时间</th>
+                        <th>年份</th>
+                        <th>评分</th>
+                        <th>评价</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in page_obj %}
+                    <tr>
+                        <td>{{ record.upload_time }}</td>
+                        <td>{{ record.year }}</td>
+                        <td>{{ record.score }}</td>
+                        <td class="scrollable-review">{{ record.review }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">暂无评分记录</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- 分页控件 -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">首页</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">上一页</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item disabled">
+                        <span class="page-link">第 {{ page_obj.number }} 页，共 {{ page_obj.paginator.num_pages }} 页</span>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">下一页</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">尾页</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>备案号：<a href="https://beian.miit.gov.cn/" target="_blank">皖ICP备2024059256号</a></p>
+    </div>
+</body>
+</html>
